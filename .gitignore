@@ -1,0 +1,5 @@
+/target
+.jwt_secret
+uploads/*
+bin/*
+Cargo.lock
