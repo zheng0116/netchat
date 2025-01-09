@@ -1,0 +1,120 @@
+# NetChat - Real-time Chat Application
+ 
+ ![Build Status](https://img.shields.io/badge/build-chat-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Rust Version](https://img.shields.io/badge/rust-1.80.1-blue)
+
+ <strong>[中文](./README_zh.md) | English</strong>
+## 🌟 Overview
+A modern real-time chat application built with Rust, WebSocket, and OpenAI integration. NetChat supports both group chat and AI assistant features, along with file sharing capabilities.
+
+## 🚀 Features
+
+- **Real-time Communication**: Instant messaging using WebSocket technology
+- **Dual Chat Modes**:
+  - Group Chat: Real-time communication between multiple users
+  - AI Assistant: One-on-one conversations with an AI powered by OpenAI's GPT
+- **File Sharing**: Support for file uploads and downloads between users
+- **User Authentication**: JWT-based authentication system
+- **Markdown Support**: Rich text formatting with markdown syntax
+- **Code Highlighting**: Syntax highlighting for multiple programming languages
+- **Responsive Design**: Modern, responsive UI that works across devices
+
+## Technology Stack
+
+- **Backend**:
+  - Rust
+  - Axum web framework
+  - WebSocket for real-time communication
+  - JWT for authentication
+  - OpenAI API integration
+
+- **Frontend**:
+  - HTML5
+  - CSS3
+  - JavaScript
+  - highlight.js for code syntax highlighting
+
+## Prerequisites
+
+- Rust toolchain (latest stable version)
+- OpenAI API key
+
+## Configuration
+
+The application uses environment variables for configuration. These can be set in the `run.sh` script:
+
+```bash
+export JWT_SECRET=$(cat .jwt_secret)    # JWT secret key
+export OPENAI_API_KEY="your_key"        # OpenAI API key
+export SERVER_HOST="0.0.0.0"            # Server host
+export SERVER_PORT="3000"               # Server port
+export UPLOAD_DIR="uploads"             # File upload directory
+export MAX_FILE_SIZE="10485760"         # Max file size (10MB)
+```
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone [repository-url]
+   cd netchat
+   ```
+
+2. Install dependencies:
+   ```bash
+   sh run.sh build
+   ```
+
+3. Set up configuration:
+   ```bash
+   # Configure OpenAI API key
+   export OPENAI_API_KEY="your_key"
+   ```
+
+4. Create necessary directories:
+   ```bash
+   mkdir -p uploads
+   ```
+
+## Running the Application
+
+### Development Mode
+
+```bash
+ sh run.sh start dev
+```
+
+### Production Mode
+
+```bash
+ sh run.sh start
+```
+
+
+## Project Structure
+
+```
+├── src/
+│   ├── main.rs           # Application entry point
+│   ├── ai_chat.rs        # AI chat implementation
+│   └── auth.rs           # Authentication logic
+├── static/
+│   ├── chat.html         # Chat interface
+│   └── login.html        # Login page
+├── uploads/              # File upload directory
+└── run.sh               # Run script
+```
+
+## Security
+
+- All authentication is handled via JWT tokens
+- File uploads are restricted by size and stored in a dedicated directory
+- Passwords should be properly hashed in a production environment
+- WebSocket connections are authenticated
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests.
+
+## License
+
+[Add your license information here]
