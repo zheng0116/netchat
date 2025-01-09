@@ -55,7 +55,7 @@ export MAX_FILE_SIZE="10485760"         # Max file size (10MB)
 
 1. Clone the repository:
    ```bash
-   git clone [repository-url]
+   git clone https://github.com/zheng0116/netchat.git
    cd netchat
    ```
 

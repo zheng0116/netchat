@@ -53,7 +53,7 @@ export MAX_FILE_SIZE="10485760"         # 最大文件大小（10MB）
 
 1. 克隆仓库：
    ```bash
-   git clone [仓库地址]
+   git clone https://github.com/zheng0116/netchat.git
    cd netchat
    ```
 
