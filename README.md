@@ -17,7 +17,8 @@ A modern real-time chat application built with Rust, WebSocket, and OpenAI integ
 - **Markdown Support**: Rich text formatting with markdown syntax
 - **Code Highlighting**: Syntax highlighting for multiple programming languages
 - **Responsive Design**: Modern, responsive UI that works across devices
-
+## 📌 Interface Preview
+![NetChat System Interface](./images/web.jpg)
 ## Technology Stack
 
 - **Backend**:
