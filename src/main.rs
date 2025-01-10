@@ -26,7 +26,6 @@ use tokio::fs;
 use tokio::sync::broadcast;
 use tower_http::services::ServeDir;
 
-// 添加消息结构体
 #[derive(Debug, Serialize, Deserialize)]
 struct ChatMessage {
     #[serde(rename = "userId")]
@@ -34,7 +33,6 @@ struct ChatMessage {
     message: String,
 }
 
-// 添加文件上传响应结构体
 #[derive(Serialize)]
 struct UploadResponse {
     url: String,
@@ -64,7 +62,6 @@ struct WsQuery {
 async fn main() {
     dotenv::dotenv().ok();
 
-    // 获取环境变量
     let host = std::env::var("SERVER_HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
     let port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "3000".to_string());
     let upload_dir = std::env::var("UPLOAD_DIR").unwrap_or_else(|_| "uploads".to_string());
@@ -73,7 +70,6 @@ async fn main() {
         .parse()
         .unwrap_or(10485760);
 
-    // 创建上传目录
     if !Path::new(&upload_dir).exists() {
         fs::create_dir(&upload_dir).await.unwrap();
     }
@@ -166,7 +162,7 @@ async fn handle_socket(socket: WebSocket, state: Arc<AppState>, username: String
     // 发送任务：接收广播消息并发送给客户端
     let mut send_task = tokio::spawn(async move {
         while let Ok(msg) = rx.recv().await {
-            if sender.send(Message::Text(msg)).await.is_err() {
+            if sender.send(Message::Text(msg.into())).await.is_err() {
                 break;
             }
         }
