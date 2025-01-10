@@ -19,7 +19,7 @@ case $1 in
     export JWT_SECRET=$(cat .jwt_secret)
 
     # OpenAI API config
-    export OPENAI_API_KEY="your_key"
+    export OPENAI_API_KEY="your_openai_api_key"
 
     # IP and port
     export SERVER_HOST="0.0.0.0"

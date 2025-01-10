@@ -1,7 +1,7 @@
 use async_openai::{
     types::{
         ChatCompletionRequestMessage, ChatCompletionRequestUserMessage,
-        ChatCompletionRequestUserMessageContent, CreateChatCompletionRequest, Role,
+        ChatCompletionRequestUserMessageContent, CreateChatCompletionRequest,
     },
     Client,
 };
@@ -20,7 +20,6 @@ pub async fn get_ai_response(message: &str) -> Result<String, Box<dyn std::error
         messages: vec![ChatCompletionRequestMessage::User(
             ChatCompletionRequestUserMessage {
                 content: ChatCompletionRequestUserMessageContent::Text(message.to_string()),
-                role: Role::User,
                 name: None,
             },
         )],
