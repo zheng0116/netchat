@@ -14,7 +14,7 @@
 - **用户认证**：基于 JWT 的认证系统
 - **Markdown 支持**：支持使用 markdown 语法的富文本格式
 - **代码高亮**：多种编程语言的语法高亮显示
-- **响应式设计**：现代化的响应式界面，适配多种设备
+
 ## 📌 界面预览
 ![NetChat System Interface](./images/web.jpg)
 ## 技术栈
@@ -39,15 +39,14 @@
 
 ## 配置说明
 
-应用程序使用环境变量进行配置。这些配置可以在 `run.sh` 脚本中设置：
+应用程序使用环境变量进行配置。这些配置可以在 `.env` 中设置：
 
 ```bash
-export JWT_SECRET=$(cat .jwt_secret)    # JWT 密钥
-export OPENAI_API_KEY="your_key"        # OpenAI API 密钥
-export SERVER_HOST="0.0.0.0"            # 服务器主机
-export SERVER_PORT="3000"               # 服务器端口
-export UPLOAD_DIR="uploads"             # 文件上传目录
-export MAX_FILE_SIZE="10485760"         # 最大文件大小（10MB）
+OPENAI_API_KEY="your_key"        # OpenAI API 密钥
+SERVER_HOST="0.0.0.0"            # 服务器主机
+SERVER_PORT="3000"               # 服务器端口
+UPLOAD_DIR="uploads"             # 文件上传目录
+MAX_FILE_SIZE="10485760"         # 最大文件大小（10MB）
 ```
 
 ## 安装步骤
@@ -65,14 +64,10 @@ export MAX_FILE_SIZE="10485760"         # 最大文件大小（10MB）
 
 3. 设置配置：
    ```bash
-   # 配置 OpenAI API 密钥
-   export OPENAI_API_KEY="你的key"
+   # 配置 OpenAI API 密钥，在 .env 文件中添加以下行：
+   OPENAI_API_KEY="你的key"
    ```
 
-4. 创建必要的目录：
-   ```bash
-   mkdir -p uploads
-   ```
 
 ## 运行应用
 

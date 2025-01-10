@@ -16,7 +16,7 @@ A modern real-time chat application built with Rust, WebSocket, and OpenAI integ
 - **User Authentication**: JWT-based authentication system
 - **Markdown Support**: Rich text formatting with markdown syntax
 - **Code Highlighting**: Syntax highlighting for multiple programming languages
-- **Responsive Design**: Modern, responsive UI that works across devices
+
 ## 📌 Interface Preview
 ![NetChat System Interface](./images/web.jpg)
 ## Technology Stack
@@ -44,12 +44,11 @@ A modern real-time chat application built with Rust, WebSocket, and OpenAI integ
 The application uses environment variables for configuration. These can be set in the `run.sh` script:
 
 ```bash
-export JWT_SECRET=$(cat .jwt_secret)    # JWT secret key
-export OPENAI_API_KEY="your_key"        # OpenAI API key
-export SERVER_HOST="0.0.0.0"            # Server host
-export SERVER_PORT="3000"               # Server port
-export UPLOAD_DIR="uploads"             # File upload directory
-export MAX_FILE_SIZE="10485760"         # Max file size (10MB)
+OPENAI_API_KEY="your_key"        # OpenAI API key
+SERVER_HOST="0.0.0.0"            # Server host
+SERVER_PORT="3000"               # Server port
+UPLOAD_DIR="uploads"             # File upload directory
+MAX_FILE_SIZE="10485760"         # Max file size (10MB)
 ```
 
 ## Installation
@@ -69,11 +68,6 @@ export MAX_FILE_SIZE="10485760"         # Max file size (10MB)
    ```bash
    # Configure OpenAI API key
    export OPENAI_API_KEY="your_key"
-   ```
-
-4. Create necessary directories:
-   ```bash
-   mkdir -p uploads
    ```
 
 ## Running the Application
