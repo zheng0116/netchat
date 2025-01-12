@@ -1,8 +1,3 @@
-mod ai_chat;
-mod auth;
-
-use crate::ai_chat::{get_ai_response, AIChatRequest};
-use crate::auth::{create_token, verify_token, LoginRequest};
 use axum::{
     body::Body,
     extract::{
@@ -18,6 +13,8 @@ use axum::{
 use axum_extra::headers::{authorization::Bearer, Authorization};
 use axum_extra::TypedHeader;
 use futures::{sink::SinkExt, stream::StreamExt};
+use netchat::{create_token, verify_token, LoginRequest};
+use netchat::{get_ai_response, AIChatRequest};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use std::path::Path;
@@ -61,7 +58,7 @@ struct WsQuery {
 #[tokio::main]
 async fn main() {
     dotenv::dotenv().ok();
-
+    netchat::set_logger();
     let host = std::env::var("SERVER_HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
     let port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "3000".to_string());
     let upload_dir = std::env::var("UPLOAD_DIR").unwrap_or_else(|_| "uploads".to_string());
@@ -98,7 +95,8 @@ async fn main() {
         .with_state(app_state);
 
     let addr: SocketAddr = format!("{}:{}", host, port).parse().unwrap();
-    println!("服务器运行在 http://{}:{}", host, port);
+    tracing::info!("Start NetChat Service!");
+    tracing::info!("Service start in http://{}:{}", host, port);
 
     axum::serve(tokio::net::TcpListener::bind(addr).await.unwrap(), app)
         .await
@@ -153,7 +151,7 @@ async fn ws_handler(
 }
 
 async fn handle_socket(socket: WebSocket, state: Arc<AppState>, username: String) {
-    println!("用户 {} 已连接", username);
+    tracing::info!("用户 {} 已连接", username);
 
     // 创建一个广播接收器
     let mut rx = state.tx.subscribe();
@@ -172,16 +170,16 @@ async fn handle_socket(socket: WebSocket, state: Arc<AppState>, username: String
     let tx = state.tx.clone();
     let mut recv_task = tokio::spawn(async move {
         while let Some(Ok(Message::Text(text))) = receiver.next().await {
-            println!("收到来自 {} 的消息: {}", username, text);
+            tracing::info!("收到来自 {} 的消息: {}", username, text);
             if let Ok(chat_msg) = serde_json::from_str::<ChatMessage>(&text) {
                 if let Ok(json) = serde_json::to_string(&chat_msg) {
-                    println!("广播消息: {}", json);
+                    tracing::info!("广播消息: {}", json);
                     // 使用 tx 广播消息给所有连接的客户端
                     let _ = tx.send(json);
                 }
             }
         }
-        println!("用户 {} 已断开连接", username);
+        tracing::info!("用户 {} 已断开连接", username);
     });
 
     // 等待任意一个任务完成
