@@ -1,34 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>NetChat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
     <style>
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #3b82f6;
-            --background-color: #ffffff;
+            --primary: #2563eb;
+            --bg: #ffffff;
             --nav-bg: #f8fafc;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --hover-bg: #f1f5f9;
-            --message-self-bg: #eff6ff;
-            --message-other-bg: #f8fafc;
-            --ai-color: #059669;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --hover: #f1f5f9;
         }
+
         body {
             margin: 0;
             font-family: system-ui, -apple-system, sans-serif;
-            background: var(--background-color);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
         }
 
         .nav {
@@ -43,29 +35,38 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            border-right: 1px solid #e5e5e5;
+            border-right: 1px solid var(--border);
         }
 
         .nav-button {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             border-radius: 0.375rem;
             background: transparent;
-            color: var(--text-primary);
             cursor: pointer;
-            text-align: left;
-            transition: background-color 0.2s;
-        }
-
-        .nav-button:hover {
-            background: var(--hover-bg);
         }
 
         .nav-button.active {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
-            border-color: var(--primary-color);
+        }
+        .nav-brand {
+            margin-bottom: 1rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--primary);
+            padding: 0.5rem;
+            font-weight: bold; 
+        }
+
+        .nav-logo svg {
+            color: var(--primary);
         }
 
         .chat-container {
@@ -77,26 +78,18 @@
 
         .chat-area {
             flex: 1;
-            display: flex;
-            flex-direction: column;
             max-width: 900px;
             margin: 0 auto;
             width: 100%;
-            position: relative;
             padding-bottom: 100px;
         }
 
         .messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 2rem 1rem;
             display: none;
             flex-direction: column;
-            margin-bottom: 1rem;
-        }
-
-        #group-messages, #ai-messages {
-            flex-direction: column; /* 都使用从上到下的顺序 */
+            padding: 2rem 1rem;
+            overflow-y: auto;
+            flex: 1;
         }
 
         .messages.active {
@@ -111,25 +104,20 @@
             max-width: 85%;
             gap: 1rem;
             align-items: flex-start;
-            transition: all 0.2s ease;
-            border: 1px solid #e5e5e5;
-            background: #ffffff;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            background: #fff;
         }
 
         .message.self {
-            background: #f0f7ff;
-            border-color: #d0e3ff;
             margin-left: auto;
             flex-direction: row-reverse;
-            border-bottom-right-radius: 0.3rem;
-            color: #1a1a1a;
+            background: #f0f7ff;
         }
 
-        .message.other, .message.ai {
-            background: #f7f7f8;
+        .message.other,
+        .message.ai {
             margin-right: auto;
-            border-bottom-left-radius: 0.3rem;
+            background: #f7f7f8;
         }
 
         .user-avatar {
@@ -142,45 +130,12 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1rem;
             flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .message.self .user-avatar {
-            background: #4a90e2;
-            color: white;
-        }
-
-        .message.ai .user-avatar {
-            background: var(--message-other-bg);
-            /* color: white; */
         }
 
         .message-content {
             flex: 1;
             max-width: calc(100% - 50px);
-        }
-
-        .user-id {
-            font-size: 0.9rem;
-            color: #666666;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-
-        .message.self .user-id {
-            color: #4a90e2;
-        }
-
-        .message-text {
-            color: #333333;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .message.self .message-text {
-            color: #1a1a1a;
         }
 
         .input-area {
@@ -191,7 +146,7 @@
             padding: 1.5rem 2rem;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e5e5;
+            border-top: 1px solid var(--border);
             display: flex;
             gap: 0.75rem;
             align-items: center;
@@ -202,56 +157,30 @@
         #message-input {
             flex: 1;
             padding: 0.75rem 1rem;
-            border: 1px solid #e5e5e5;
+            border: 1px solid var(--border);
             border-radius: 0.8rem;
-            background: #ffffff;
-            color: #333333;
             resize: none;
             height: 42px;
-            min-height: unset;
-            max-height: unset;
-            line-height: 1.5;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            margin: 0;
         }
 
-        #message-input:focus {
-            outline: none;
-            border-color: #10a37f;
-            box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.1);
-        }
-
-        .send-button, .file-button {
-            padding: 0 1rem;
-            background: #4a90e2;
-            color: white;
+        .send-button,
+        .file-button {
+            height: 42px;
+            min-width: 42px;
             border: none;
             border-radius: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 42px;
-            min-width: 42px;
         }
 
-        .send-button:hover {
-            background: #357abd;
-            transform: translateY(-1px);
+        .send-button {
+            background: var(--primary);
+            color: white;
+            padding: 0 1rem;
         }
 
         .file-button {
             background: #f0f0f0;
             color: #666;
-            padding: 0;
-            width: 42px;
-        }
-
-        .file-button:hover {
-            background: #e5e5e5;
         }
 
         .file-message {
@@ -261,41 +190,16 @@
             padding: 0.75rem 1.2rem;
             background: #f7f7f8;
             border-radius: 0.8rem;
-            color: #333333;
             text-decoration: none;
-            transition: all 0.2s ease;
-            font-size: 0.95rem;
-            border: 1px solid #e5e5e5;
-        }
-
-        .file-message:hover {
-            background: rgba(77, 77, 79, 0.8);
-            transform: translateY(-1px);
+            color: inherit;
         }
 
         .message pre {
             background: #f7f7f8;
             border-radius: 0.8rem;
-            padding: 1rem 1.2rem;
+            padding: 1rem;
             overflow-x: auto;
             margin: 0.75rem 0;
-            border: 1px solid #e5e5e5;
-        }
-
-        .message code {
-            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #333333;
-        }
-
-        .message p code {
-            background: #f7f7f8;
-            padding: 0.2em 0.4em;
-            border-radius: 0.4rem;
-            font-size: 0.9rem;
-            border: 1px solid #e5e5e5;
-            color: #333333;
         }
 
         .upload-progress {
@@ -304,7 +208,6 @@
             left: 260px;
             right: 0;
             height: 2px;
-            background: transparent;
             z-index: 1000;
         }
 
@@ -314,54 +217,13 @@
             width: 0%;
             transition: width 0.3s;
         }
-
-        /* 添加内容容器来保持消息在底部 */
-        .messages::after {
-            content: '';
-            margin-top: auto;
-        }
-
-        /* 添加代码块样式 */
-        .message pre {
-            background: #f7f7f8;
-            border: 1px solid #e5e5e5;
-        }
-
-        .message.self pre {
-            background: rgba(74, 144, 226, 0.05);
-            border-color: #d0e3ff;
-        }
-
-        .message code {
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-
-        /* 行内代码样式 */
-        .message p code {
-            background: #f7f7f8;
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-
-        /* 文件消息样式调整 */
-        .message.self .file-message {
-            background: rgba(74, 144, 226, 0.1);
-            border-color: #d0e3ff;
-            color: #4a90e2;
-        }
-
-        .message.self .file-message:hover {
-            background: rgba(74, 144, 226, 0.15);
-        }
     </style>
 </head>
+
 <body>
     <div class="nav">
         <div class="nav-brand">
             <a href="#" class="nav-logo">
-                <!-- 这里是 logo SVG -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path
@@ -395,57 +257,27 @@
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('username');
 
-        if (!token || !username) {
-            window.location.href = '/';
-        }
+        if (!token || !username) window.location.href = '/';
 
         function switchChat(mode) {
             currentMode = mode;
-            document.querySelectorAll('.nav-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // 切换消息显示
             document.getElementById('group-messages').classList.toggle('active', mode === 'group');
             document.getElementById('ai-messages').classList.toggle('active', mode === 'ai');
-            
-            // 切换文件上传按钮的显示
-            document.querySelector('.file-button').style.display = 
-                mode === 'group' ? 'block' : 'none';
-
-            // 确保 WebSocket 连接
-            if (mode === 'group' && (!ws || ws.readyState !== WebSocket.OPEN)) {
-                connectWebSocket();
-            }
+            document.querySelector('.file-button').style.display = mode === 'group' ? 'block' : 'none';
+            if (mode === 'group' && (!ws || ws.readyState !== WebSocket.OPEN)) connectWebSocket();
         }
 
         async function connectWebSocket() {
-            if (ws && ws.readyState === WebSocket.OPEN) {
-                return true;
-            }
+            if (ws?.readyState === WebSocket.OPEN) return true;
 
             return new Promise((resolve, reject) => {
-                const token = localStorage.getItem('token');
-                const username = localStorage.getItem('username');
-                
-                if (!token || !username) {
-                    reject(new Error('未登录'));
-                    return;
-                }
+                ws = new WebSocket(`ws://${window.location.host}/api/ws?token=${encodeURIComponent(token)}&username=${encodeURIComponent(username)}`);
 
-                const wsUrl = `ws://${window.location.host}/api/ws?token=${encodeURIComponent(token)}&username=${encodeURIComponent(username)}`;
-                console.log('正在连接 WebSocket:', wsUrl);
-                
-                ws = new WebSocket(wsUrl);
-                
-                ws.onopen = function() {
-                    console.log('WebSocket 连接已建立');
-                    resolve(true);
-                };
-                
-                ws.onmessage = function(event) {
-                    console.log('收到消息:', event.data);
+                ws.onopen = () => resolve(true);
+
+                ws.onmessage = (event) => {
                     try {
                         const data = JSON.parse(event.data);
                         addMessage(data.userId, data.message, data.userId === username);
@@ -454,22 +286,17 @@
                     }
                 };
 
-                ws.onclose = function() {
-                    console.log('WebSocket 连接已关闭');
+                ws.onclose = () => {
                     ws = null;
-                    if (currentMode === 'group') {
-                        setTimeout(connectWebSocket, 1000);
-                    }
+                    if (currentMode === 'group') setTimeout(connectWebSocket, 1000);
                     resolve(false);
                 };
 
-                ws.onerror = function(error) {
-                    console.error('WebSocket 错误:', error);
+                ws.onerror = (error) => {
                     ws = null;
                     reject(error);
                 };
 
-                // 设置连接超时
                 setTimeout(() => {
                     if (ws.readyState !== WebSocket.OPEN) {
                         ws.close();
@@ -480,69 +307,31 @@
         }
 
         function formatMessage(text) {
-            // 使用正则表达式匹配代码块
-            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-            const inlineCodeRegex = /`([^`]+)`/g;
-            
-            // 首先转义 HTML 特殊字符
-            let formattedText = text
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-
-            // 将普通文本的换行符转换为 <br>（排除代码块）
-            let result = '';
-            let lastIndex = 0;
-            let match;
-
-            while ((match = codeBlockRegex.exec(formattedText)) !== null) {
-                // 添加代码块之前的文本（将换行符转换为 <br>）
-                const beforeCode = formattedText.slice(lastIndex, match.index).replace(/\n/g, '<br>');
-                result += beforeCode;
-
-                // 添加代码块（保持原有换行符）
-                const [_, lang, code] = match;
-                const language = lang || '';
-                // 在这里，我们保持代码块中的换行符，将它们转换为实际的 HTML 换行
-                const formattedCode = code.trim().replace(/\n/g, '&#10;');
-                result += `<pre><code class="language-${language}">${formattedCode}</code></pre>`;
-
-                lastIndex = match.index + match[0].length;
-            }
-
-            // 添加最后一个代码块之后的文本
-            result += formattedText.slice(lastIndex).replace(/\n/g, '<br>');
-
-            // 处理行内代码
-            result = result.replace(inlineCodeRegex, '<code>$1</code>');
-
-            return result;
+            let formattedText = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            formattedText = formattedText.replace(/```(\w+)?\n([\s\S]*?)```/g, (_, lang, code) =>
+                `<pre><code class="language-${lang || ''}">${code.trim()}</code></pre>`
+            );
+            return formattedText.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>');
         }
 
         function addMessage(userId, text, isSelf, isAI = false) {
             const messages = document.getElementById(currentMode === 'group' ? 'group-messages' : 'ai-messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isAI ? 'ai' : (isSelf ? 'self' : 'other')}`;
-            
+
             const avatarDiv = document.createElement('div');
-            avatarDiv.className = `user-avatar ${isAI ? 'ai-avatar' : ''}`;
+            avatarDiv.className = 'user-avatar';
             avatarDiv.textContent = isAI ? 'AI' : userId.charAt(0).toUpperCase();
 
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
-            
+
             if (text.includes('分享了文件:')) {
-                const fileMatch = text.match(/分享了文件: (.*?) \[(.*?)\]/);
-                if (fileMatch) {
-                    const [_, fileName, fileUrl] = fileMatch;
-                    contentDiv.innerHTML = `
-                        <div class="user-id">${userId}</div>
-                        <a href="${fileUrl}" class="file-message" download>
-                            <span>📎</span>
-                            <span>${fileName}</span>
-                        </a>
-                    `;
-                }
+                const [_, fileName, fileUrl] = text.match(/分享了文件: (.*?) \[(.*?)\]/);
+                contentDiv.innerHTML = `
+                    <div class="user-id">${userId}</div>
+                    <a href="${fileUrl}" class="file-message" download><span>📎</span><span>${fileName}</span></a>
+                `;
             } else {
                 contentDiv.innerHTML = `
                     <div class="user-id">${userId}</div>
@@ -550,7 +339,6 @@
                 `;
             }
 
-            // 根据消息类型决定添加顺序
             if (isSelf) {
                 messageDiv.appendChild(contentDiv);
                 messageDiv.appendChild(avatarDiv);
@@ -561,53 +349,37 @@
 
             messages.appendChild(messageDiv);
             messages.scrollTop = messages.scrollHeight;
-
-            // 高亮代码块
-            messageDiv.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightElement(block);
-            });
+            messageDiv.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
         }
 
         async function sendMessage() {
             const input = document.getElementById('message-input');
             const message = input.value.trim();
-            const username = localStorage.getItem('username');
-            
-            if (!message || !username) return;
+            if (!message) return;
 
             if (currentMode === 'group') {
                 try {
-                    const connected = await connectWebSocket();
-                    if (!connected) {
+                    if (!await connectWebSocket()) {
                         addMessage('系统', 'WebSocket 连接失败，正在重试...', false);
                         return;
                     }
-
-                    const chatMessage = {
-                        userId: username,
-                        message: message
-                    };
-                    ws.send(JSON.stringify(chatMessage));
+                    ws.send(JSON.stringify({ userId: username, message }));
                     input.value = '';
                 } catch (error) {
-                    console.error('发送消息失败:', error);
                     addMessage('系统', '发送失败，请重试', false);
                 }
             } else {
-                // AI 聊天模式
                 addMessage(username, message, true);
                 input.value = '';
-                
                 try {
                     const response = await fetch('/api/ai_chat', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                            'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify({ message })
                     });
-
                     if (response.ok) {
                         const data = await response.json();
                         addMessage('AI 助手', data.response, false, true);
@@ -620,12 +392,9 @@
             }
         }
 
-        // 文件上传相关
-        document.getElementById('file-input').addEventListener('change', function(e) {
+        document.getElementById('file-input').addEventListener('change', e => {
             const file = e.target.files[0];
-            if (file) {
-                uploadFile(file);
-            }
+            if (file) uploadFile(file);
         });
 
         async function uploadFile(file) {
@@ -633,31 +402,28 @@
             formData.append('file', file);
             formData.append('userId', username);
 
-            const progressDiv = document.querySelector('.upload-progress');
             const progressBar = document.getElementById('upload-progress-bar');
-            
+            const progressDiv = document.querySelector('.upload-progress');
             progressDiv.style.display = 'block';
-            
+
             try {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '/api/upload', true);
-                xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
 
                 xhr.upload.onprogress = (e) => {
                     if (e.lengthComputable) {
-                        const percentComplete = (e.loaded / e.total) * 100;
-                        progressBar.style.width = percentComplete + '%';
+                        progressBar.style.width = (e.loaded / e.total * 100) + '%';
                     }
                 };
 
-                xhr.onload = async function() {
+                xhr.onload = () => {
                     if (xhr.status === 200) {
                         const data = JSON.parse(xhr.responseText);
-                        const message = {
+                        ws.send(JSON.stringify({
                             userId: username,
                             message: `分享了文件: ${file.name} [${data.url}]`
-                        };
-                        ws.send(JSON.stringify(message));
+                        }));
                     }
                 };
 
@@ -672,16 +438,15 @@
             }
         }
 
-        // 监听回车键
-        document.getElementById('message-input').addEventListener('keypress', function(e) {
+        document.getElementById('message-input').addEventListener('keypress', e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
         });
 
-        // 页面加载时就尝试连接
         connectWebSocket();
     </script>
 </body>
+
 </html>
