@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 anyhow ={version = "1.0"}
 base64 = {version = "0.22.1"}
+chrono = {version = "0.4.39"} 
 axum = { version = "0.8.1", features = ["ws", "multipart"] }
 tokio = { version = "1.0", features = ["full"] }
 tower-http = { version = "0.6.2", features = ["fs", "cors"] }
