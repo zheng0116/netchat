@@ -13,8 +13,8 @@ use axum::{
 use axum_extra::headers::{authorization::Bearer, Authorization};
 use axum_extra::TypedHeader;
 use futures::{sink::SinkExt, stream::StreamExt};
+use netchat::AIChatRequest;
 use netchat::{create_token, verify_token, LoginRequest};
-use netchat::{get_ai_response, AIChatRequest};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use std::path::Path;
@@ -130,7 +130,7 @@ async fn handle_login(
 async fn handle_ai_chat(
     Json(request): Json<AIChatRequest>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
-    match get_ai_response(&request.message, &request.model).await {
+    match request.get_ai_response().await {
         Ok(response) => Ok(Json(serde_json::json!({ "response": response }))),
         Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
     }

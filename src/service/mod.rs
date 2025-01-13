@@ -1,2 +1,3 @@
 mod assistant;
-pub use assistant::{get_ai_response, AIChatRequest};
+mod mime;
+pub use assistant::AIChatRequest;
