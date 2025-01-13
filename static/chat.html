@@ -217,6 +217,35 @@
             width: 0%;
             transition: width 0.3s;
         }
+
+        .model-selector {
+            position: fixed;
+            top: 1rem;
+            left: calc(260px + 1rem);
+            z-index: 100;
+            padding: 0.5rem;
+        }
+
+        .model-selector select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: white;
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .model-selector select:hover {
+            border-color: var(--primary);
+        }
+
+        .model-selector select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
     </style>
 </head>
 
@@ -237,6 +266,13 @@
     </div>
     <div class="chat-container">
         <div class="chat-area">
+            <div class="model-selector" style="display: none;">
+                <select id="model-selector">
+                    <option value="openai">OpenAI</option>
+                    <option value="qwen">通义千问</option>
+                    <option value="glm">智谱 GLM</option>
+                </select>
+            </div>
             <div id="group-messages" class="messages active"></div>
             <div id="ai-messages" class="messages"></div>
             <div class="input-area">
@@ -263,10 +299,16 @@
             currentMode = mode;
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            
             document.getElementById('group-messages').classList.toggle('active', mode === 'group');
             document.getElementById('ai-messages').classList.toggle('active', mode === 'ai');
+            
             document.querySelector('.file-button').style.display = mode === 'group' ? 'block' : 'none';
-            if (mode === 'group' && (!ws || ws.readyState !== WebSocket.OPEN)) connectWebSocket();
+            document.querySelector('.model-selector').style.display = mode === 'ai' ? 'block' : 'none';
+
+            if (mode === 'group' && (!ws || ws.readyState !== WebSocket.OPEN)) {
+                connectWebSocket();
+            }
         }
 
         async function connectWebSocket() {
@@ -369,8 +411,10 @@
                     addMessage('系统', '发送失败，请重试', false);
                 }
             } else {
+                const model = document.getElementById('model-selector').value;
                 addMessage(username, message, true);
                 input.value = '';
+                
                 try {
                     const response = await fetch('/api/ai_chat', {
                         method: 'POST',
@@ -378,8 +422,12 @@
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify({ message })
+                        body: JSON.stringify({ 
+                            message,
+                            model
+                        })
                     });
+                    
                     if (response.ok) {
                         const data = await response.json();
                         addMessage('AI 助手', data.response, false, true);

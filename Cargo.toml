@@ -13,7 +13,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = {version ="1.0"}
 futures = {version ="0.3"}
 tokio-util = { version = "0.7", features = ["io"] }
-async-openai = {version = "0.26.0"}
+async-openai = {version = "0.27.1"}
 jsonwebtoken = {version = "9.2"}
 dotenv = {version = "0.15"}
 reqwest= {version = "0.12.2"}
