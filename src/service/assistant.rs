@@ -17,6 +17,7 @@ impl AIChatRequest {
             "openai" => Ok(OPENAI::new(&self.message).get_openai_response().await?),
             "qwen" => Ok(Qwen::new(&self.message).get_qwen_response().await?),
             "glm" => Ok(GLM::new(&self.message).get_glm_response().await?),
+            "gemini" => Ok(Gemini::new(&self.message).get_gemini_response().await?),
             _ => Ok("不支持的模型类型".to_string()),
         }
     }
