@@ -130,7 +130,7 @@ async fn handle_login(
 async fn handle_ai_chat(
     Json(request): Json<AIChatRequest>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
-    match get_ai_response(&request.message).await {
+    match get_ai_response(&request.message, &request.model).await {
         Ok(response) => Ok(Json(serde_json::json!({ "response": response }))),
         Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
     }

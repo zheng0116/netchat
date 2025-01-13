@@ -5,16 +5,9 @@ use async_openai::{
     },
     Client,
 };
-use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct AIChatRequest {
-    pub message: String,
-}
-
-pub async fn get_ai_response(message: &str) -> Result<String, Box<dyn std::error::Error>> {
+pub async fn get_openai_response(message: &str) -> Result<String, Box<dyn std::error::Error>> {
     let client = Client::new();
-
     let request = CreateChatCompletionRequest {
         model: "gpt-3.5-turbo".to_string(),
         messages: vec![ChatCompletionRequestMessage::User(
@@ -27,7 +20,6 @@ pub async fn get_ai_response(message: &str) -> Result<String, Box<dyn std::error
     };
 
     let response = client.chat().create(request).await?;
-
     Ok(response.choices[0]
         .message
         .content
