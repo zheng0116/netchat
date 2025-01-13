@@ -7,14 +7,17 @@ pub struct AIChatRequest {
     pub model: String,
 }
 
-pub async fn get_ai_response(
-    message: &str,
-    model: &str,
-) -> Result<String, Box<dyn std::error::Error>> {
-    match model {
-        "openai" => get_openai_response(message).await,
-        "qwen" => get_qwen_response(message).await,
-        "glm" => get_glm_response(message).await,
-        _ => Ok("不支持的模型类型".to_string()),
+impl AIChatRequest {
+    pub fn new(message: String, model: String) -> Self {
+        Self { message, model }
+    }
+
+    pub async fn get_ai_response(&self) -> Result<String, Box<dyn std::error::Error>> {
+        match self.model.as_str() {
+            "openai" => Ok(OPENAI::new(&self.message).get_openai_response().await?),
+            "qwen" => Ok(Qwen::new(&self.message).get_qwen_response().await?),
+            "glm" => Ok(GLM::new(&self.message).get_glm_response().await?),
+            _ => Ok("不支持的模型类型".to_string()),
+        }
     }
 }
