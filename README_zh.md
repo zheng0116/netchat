@@ -16,7 +16,7 @@
 - **代码高亮**：多种编程语言的语法高亮显示
 
 ## 📌 界面预览
-![NetChat System Interface](./images/web.jpg)
+![NetChat System Interface](./images/userweb.jpg)
 ## 技术栈
 
 - **后端**：
