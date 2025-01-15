@@ -18,7 +18,7 @@ A modern real-time chat application built with Rust, WebSocket, and OpenAI integ
 - **Code Highlighting**: Syntax highlighting for multiple programming languages
 
 ## 📌 Interface Preview
-![NetChat System Interface](./images/web.jpg)
+![NetChat System Interface](./images/userweb.jpg)
 ## Technology Stack
 
 - **Backend**:
