@@ -2,14 +2,14 @@
   ![Build Status](https://img.shields.io/badge/build-chat-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Rust Version](https://img.shields.io/badge/rust-1.80.1-blue)
  <strong>[英文](./README.md) | English</strong>
  ## 🌟 概述
-一个使用 Rust、WebSocket 和 OpenAI 集成构建的现代实时聊天应用。NetChat 支持群聊和 AI 助手功能，并具备文件共享能力。
+一个使用 Rust、WebSocket,支持多种大语言模型，包括 OpenAI 的 GPT、通义千问、ChatGLM 和 Google 的 Gemini集成构建的现代实时聊天应用。NetChat 支持群聊和 AI 助手功能，并具备文件共享能力。
 
 ## 🚀 功能特性
 
 - **实时通信**：使用 WebSocket 技术实现即时消息传递
 - **双模式聊天**：
   - 群聊：用户之间的实时多人通信
-  - AI 助手：与 OpenAI GPT 驱动的 AI 进行一对一对话
+  - AI 助手：支持多种大语言模型，包括 OpenAI 的 GPT、通义千问、ChatGLM 和 Google 的 Gemini
 - **文件共享**：支持用户之间的文件上传和下载
 - **用户认证**：基于 JWT 的认证系统
 - **Markdown 支持**：支持使用 markdown 语法的富文本格式
@@ -17,25 +17,10 @@
 
 ## 📌 界面预览
 ![NetChat System Interface](./images/userweb.jpg)
-## 技术栈
-
-- **后端**：
-  - Rust 编程语言
-  - Axum web 框架
-  - WebSocket 实现实时通信
-  - JWT 实现身份认证
-  - OpenAI API 集成
-
-- **前端**：
-  - HTML5
-  - CSS3
-  - JavaScript
-  - highlight.js 实现代码语法高亮
 
 ## 环境要求
-
 - Rust 
-- OpenAI API 密钥
+- OpenAI/Chatglm/qwen/google Gemini API 密钥
 
 ## 配置说明
 

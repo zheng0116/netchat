@@ -4,14 +4,14 @@
 
  <strong>[中文](./README_zh.md) | English</strong>
 ## 🌟 Overview
-A modern real-time chat application built with Rust, WebSocket, and OpenAI integration. NetChat supports both group chat and AI assistant features, along with file sharing capabilities.
+A modern real-time chat application built using Rust, WebSocket, and supporting multiple large language models, including OpenAI's GPT, Tongyi Qianwen, ChatGLM and Google's Gemini integration. NetChat supports group chat and AI assistant functions, and has file sharing capabilities.
 
 ## 🚀 Features
 
 - **Real-time Communication**: Instant messaging using WebSocket technology
 - **Dual Chat Modes**:
   - Group Chat: Real-time communication between multiple users
-  - AI Assistant: One-on-one conversations with an AI powered by OpenAI's GPT
+  - AI Assistant: One-on-one conversations with an AI powered by multiple language models including OpenAI's GPT, Tongyi Qianwen, ChatGLM, and Google's Gemini.
 - **File Sharing**: Support for file uploads and downloads between users
 - **User Authentication**: JWT-based authentication system
 - **Markdown Support**: Rich text formatting with markdown syntax
@@ -19,25 +19,11 @@ A modern real-time chat application built with Rust, WebSocket, and OpenAI integ
 
 ## 📌 Interface Preview
 ![NetChat System Interface](./images/userweb.jpg)
-## Technology Stack
-
-- **Backend**:
-  - Rust
-  - Axum web framework
-  - WebSocket for real-time communication
-  - JWT for authentication
-  - OpenAI API integration
-
-- **Frontend**:
-  - HTML5
-  - CSS3
-  - JavaScript
-  - highlight.js for code syntax highlighting
 
 ## Prerequisites
 
 - Rust toolchain (latest stable version)
-- OpenAI API key
+- OpenAI/Chatglm/qwen/google Gemini API key
 
 ## Configuration
 

@@ -20,6 +20,7 @@ impl QwenVl {
     pub fn new(prompt: String, image_path: String) -> Self {
         Self { prompt, image_path }
     }
+
     pub async fn get_qwen_vl_response(&self) -> Result<String, Box<dyn Error>> {
         let api_key =
             env::var("DASHSCOPE_API_KEY").expect("Missing DASHSCOPE_API_KEY environment variable");
@@ -30,12 +31,18 @@ impl QwenVl {
             .with_api_key(api_key);
         let client = Client::with_config(config);
 
-        // read image
-        let image_bytes = fs::read(self.image_path.clone())?;
+        let image_path = if self.image_path.starts_with('/') {
+            format!(".{}", self.image_path)
+        } else {
+            self.image_path.clone()
+        };
+
+        tracing::info!("Trying to read image from path: {}", image_path);
+
+        let image_bytes = fs::read(&image_path)?;
         let base64_image = BASE64.encode(image_bytes);
         let data_url = format!("data:image/jpeg;base64,{}", base64_image);
 
-        // create request
         let request = CreateChatCompletionRequestArgs::default()
             .model("qwen-vl-plus")
             .max_tokens(300_u32)
@@ -61,7 +68,6 @@ impl QwenVl {
 
         let response = client.chat().create(request).await?;
 
-        // 获取第一个回复的内容并返回
         Ok(response
             .choices
             .first()
