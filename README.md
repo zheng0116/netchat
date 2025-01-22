@@ -20,6 +20,8 @@ A modern real-time chat application built using Rust, WebSocket, and supporting 
 ## 📌 Interface Preview
 ![NetChat System Interface](./images/userweb.jpg)
 
+![NetChat System Generation Image caption Interface](./images/Image_caption.png)
+
 ## Prerequisites
 
 - Rust toolchain (latest stable version)

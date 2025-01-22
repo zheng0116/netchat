@@ -18,6 +18,7 @@
 ## 📌 界面预览
 ![NetChat System Interface](./images/userweb.jpg)
 
+![NetChat System Generation Image caption Interface](./images/Image_caption.png)
 ## 环境要求
 - Rust 
 - OpenAI/Chatglm/qwen/google Gemini API 密钥
