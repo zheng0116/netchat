@@ -1,5 +1,6 @@
 # NetChat - 实时聊天应用
   ![Build Status](https://img.shields.io/badge/build-chat-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Rust Version](https://img.shields.io/badge/rust-1.80.1-blue)
+  
  <strong>[Engish](./README_en.md)｜中文</strong>
  ## 🌟 概述
 一个使用 Rust、WebSocket,支持多种大语言模型，包括 OpenAI 的 GPT、通义千问、ChatGLM 和 Google 的 Gemini集成构建的现代实时聊天应用。NetChat 支持群聊和 AI 助手功能，并具备文件共享能力。
